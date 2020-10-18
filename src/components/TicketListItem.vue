@@ -8,8 +8,7 @@
             <div class="flex space-between">
                 <div>
                     <img :src="airlineImg(tct.airline)" alt="ticket photo" loading="lazy"/>
-                    <span class="ticket__carrier-name marginLeft-12">{{ ticket.carrier_name }}
-            </span>
+                    <span class="ticket__carrier-name marginLeft-12">{{ ticket.carrier_name }}</span>
                 </div>
                 <div class="flex flex-column">
                     <span class="ticket__day"> {{ formatDate(tct.dep.at) }} </span>
