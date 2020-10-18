@@ -6,6 +6,7 @@
 @import "grid";
 @import "margin";
 @import "modal";
+@import "animation";
 
 *, *:before, *:after {
     -webkit-box-sizing: border-box;
@@ -24,4 +25,9 @@ body {
 
 img {
     vertical-align: middle;
+}
+
+::selection {
+    background-color: var(--primary-green);
+    color: #fff;
 }
