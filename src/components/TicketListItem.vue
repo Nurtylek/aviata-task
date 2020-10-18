@@ -8,7 +8,7 @@
       <div class="flex space-between">
         <div>
           <img
-              class="ticket__logo"
+            class="ticket__logo"
             :src="airlineImg(tct.airline)"
             alt="ticket photo"
             loading="lazy"
@@ -228,12 +228,12 @@ export default {
     }
   }
 
-    &__logo {
-        cursor: pointer;
+  &__logo {
+    cursor: pointer;
 
-        &:hover {
-            animation: color 10s infinite;
-        }
+    &:hover {
+      animation: color 10s infinite;
     }
+  }
 }
 </style>

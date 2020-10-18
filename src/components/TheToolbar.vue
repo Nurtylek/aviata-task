@@ -30,12 +30,12 @@ export default {
 
   &__img {
     object-fit: cover;
-      cursor: pointer;
-      width: 290px;
+    cursor: pointer;
+    width: 290px;
 
-      &:hover {
-          animation: color 10s infinite;
-      }
+    &:hover {
+      animation: color 10s infinite;
+    }
   }
 
   &__title {
