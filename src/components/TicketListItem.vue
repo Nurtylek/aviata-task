@@ -1,56 +1,74 @@
 <template>
-    <!--  I dunno why vue cannot use v-for on root element, that's why i did use this useless div(sorry)  -->
-    <div>
-        <article class="ticket" v-for="(tct, index) in ticket.flights.segments" :key="index">
-            <div class="ticket__description flex flex-column space-between">
-                <div class="flex space-between">
-                    <div>
-                        <img :src="airlineImg(tct.airline)" alt="ticket photo">
-                        <span class="ticket__carrier-name marginLeft-12"> {{ ticket.carrier_name }} </span>
-                    </div>
-                    <div class="flex flex-column">
-                        <span class="ticket__day"> {{ formatDate(tct.dep.at) }} </span>
-                        <span class="ticket__hour"> {{ formatHours(tct.dep.at) }} </span>
-                    </div>
-                    <div>
-                        <div class="ticket__diff text-center">{{ diffTime(ticket.flights.duration) }}</div>
-<!--                        <div>-->
-<!--                            <div class="ticket__div&#45;&#45;left"></div>-->
-<!--                            <div class="ticket__div&#45;&#45;right"></div>-->
-<!--                        </div>-->
-                        <div class="ticket__direction--title"> прямой рейс</div>
-                    </div>
-                    <div class="flex flex-column">
-                        <span class="ticket__day"> {{ formatDate(tct.arr.at) }} </span>
-                        <span class="ticket__hour"> {{ formatHours(tct.arr.at) }} </span>
-                    </div>
+    <article
+        class="ticket"
+        v-for="(tct, index) in ticket.flights.segments"
+        :key="index"
+    >
+        <div class="ticket__description flex flex-column space-between">
+            <div class="flex space-between">
+                <div>
+                    <img :src="airlineImg(tct.airline)" alt="ticket photo"/>
+                    <span class="ticket__carrier-name marginLeft-12">{{ ticket.carrier_name }}
+            </span>
                 </div>
-                <div class="flex align-center space-between">
-                    <div class="ticket__condition">
-                        <a class="ticket__condition--name">Детали перелета</a>
-                        <a class="ticket__condition--name">Условия тарифа</a>
-                    </div>
-                    <div class="ticket__type" :class="{ 'ticket__type--red': ticket.refundable }">
-                        {{ ticket.refundable ? 'невозвратный': 'возвратный' }}
-                    </div>
+                <div class="flex flex-column">
+                    <span class="ticket__day"> {{ formatDate(tct.dep.at) }} </span>
+                    <span class="ticket__hour"> {{ formatHours(tct.dep.at) }} </span>
+                </div>
+                <div>
+                    <div class="ticket__diff text-center">{{ diffTime(ticket.flights.duration) }}</div>
+                    <!--                        <div>-->
+                    <!--                            <div class="ticket__div&#45;&#45;left"></div>-->
+                    <!--                            <div class="ticket__div&#45;&#45;right"></div>-->
+                    <!--                        </div>-->
+                    <div class="ticket__direction--title">прямой рейс</div>
+                </div>
+                <div class="flex flex-column">
+                    <span class="ticket__day"> {{ formatDate(tct.arr.at) }} </span>
+                    <span class="ticket__hour"> {{ formatHours(tct.arr.at) }} </span>
                 </div>
             </div>
-            <div class="ticket__cta flex flex-column space-between">
-                <span class="ticket__price marginBottom-12">{{ ticket.price.amount }} ₸</span>
-                <button class="ticket__buy-btn marginBottom-12 text-center">Выбрать</button>
-                <span class="ticket__info">Цена за всех пассажиров</span>
-                <div class="flex align-center">
-                    <span class="ticket__laggage-title">Нет багажа</span>
-                    <button class="ticket__laggage-add">+ Добавить багаж</button>
+            <div class="flex align-center space-between">
+                <div class="ticket__condition">
+                    <a class="ticket__condition--name" @click="isOpen = !isOpen">Детали перелета</a>
+                    <a class="ticket__condition--name">Условия тарифа</a>
+                </div>
+                <div
+                    class="ticket__type"
+                    :class="{ 'ticket__type--red': ticket.refundable }"
+                >
+                    {{ ticket.refundable ? "невозвратный" : "возвратный" }}
                 </div>
             </div>
-        </article>
-    </div>
+        </div>
+        <div class="ticket__cta flex flex-column space-between">
+            <span class="ticket__price marginBottom-12">{{ ticket.price.amount }} ₸</span>
+            <button class="ticket__buy-btn marginBottom-12 text-center">
+                Выбрать
+            </button>
+            <span class="ticket__info">Цена за всех пассажиров</span>
+            <div class="flex align-center">
+                <span class="ticket__laggage-title">Нет багажа</span>
+                <button class="ticket__laggage-add">+ Добавить багаж</button>
+            </div>
+        </div>
+        <teleport to="#portals">
+            <div v-if="isOpen">
+                <div class="backdrop" @click="isOpen = false"></div>
+                <div class="modal">
+                    <p>Just to demonstrate new feature of vue 3 (teleporting elements as a direct child of body element (in this case)</p>
+                </div>
+            </div>
+        </teleport>
+    </article>
 </template>
 
 <script>
 export default {
     name: "TicketListItem",
+    data: () => ({
+        isOpen: false
+    }),
     props: {
         ticket: {
             type: Object,
@@ -59,20 +77,26 @@ export default {
     },
     methods: {
         airlineImg(code) {
-            return `https://aviata.kz/static/airline-logos/80x80/${code}.png`
+            return `https://aviata.kz/static/airline-logos/80x80/${code}.png`;
         },
         formatDate(time) {
-            const options = {year: "numeric", month: "long", day: "numeric"}
-            return new Date(time).toLocaleDateString(navigator.language, options)
+            const options = {year: "numeric", month: "long", day: "numeric"};
+            return new Date(time).toLocaleDateString(navigator.language, options);
         },
         formatHours(time) {
-            return new Date(time).getHours() + ':' + (new Date(time).getMinutes() === 0 ? `${new Date(time).getMinutes() + '0'}` : new Date(time).getMinutes());
+            return (
+                new Date(time).getHours() +
+                ":" +
+                (new Date(time).getMinutes() === 0
+                    ? `${new Date(time).getMinutes() + "0"}`
+                    : new Date(time).getMinutes())
+            );
         },
         diffTime(duration) {
-            return `${Math.trunc(duration / 60)}ч ${duration % 60}м`
+            return `${Math.trunc(duration / 60)}ч ${duration % 60}м`;
         }
     }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -116,11 +140,10 @@ export default {
     &__cta {
         padding: 16px;
         align-items: center;
-        background: #F5F5F5;
+        background: #f5f5f5;
     }
 
     &__condition {
-
         &--name {
             color: var(--primary-blue);
             border-bottom: 1px dashed;
@@ -172,7 +195,6 @@ export default {
     }
 
     &__laggage {
-
         &-title {
             font-size: 12px;
             line-height: 16px;

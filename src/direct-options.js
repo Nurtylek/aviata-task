@@ -1,8 +1,8 @@
 export default [
-    {
-        code: 'direct'
-    },
-    {
-        code: 'refundable'
-    }
-]
+  {
+    code: "direct"
+  },
+  {
+    code: "refundable"
+  }
+];
