@@ -1,0 +1,26 @@
+// TODO use sass modules (@use syntax)
+@import "variables";
+@import "scrollbar";
+@import "input";
+@import "utility";
+@import "grid";
+@import "margin";
+
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-color);
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+    vertical-align: middle;
+}

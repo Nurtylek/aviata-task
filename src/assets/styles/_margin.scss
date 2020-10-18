@@ -1,0 +1,14 @@
+$margins: 12, 24, 32, 48;
+
+@each $margin in $margins {
+    $marginTypes: 'top', 'left', 'bottom', 'right';
+    @each $marginType in $marginTypes {
+        .margin#{to-upper-case(str-slice($marginType, 0, 1))}#{str-slice($marginType,2)}-#{$margin} {
+            margin-#{$marginType}: #{$margin}px;
+        }
+    }
+
+    .margin-#{$margin} {
+        margin: #{$margin}px;
+    }
+}
