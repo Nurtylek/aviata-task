@@ -7,7 +7,7 @@
         <div class="ticket__description flex flex-column space-between">
             <div class="flex space-between">
                 <div>
-                    <img :src="airlineImg(tct.airline)" alt="ticket photo"/>
+                    <img :src="airlineImg(tct.airline)" alt="ticket photo" loading="lazy"/>
                     <span class="ticket__carrier-name marginLeft-12">{{ ticket.carrier_name }}
             </span>
                 </div>
@@ -85,11 +85,7 @@ export default {
         },
         formatHours(time) {
             return (
-                new Date(time).getHours() +
-                ":" +
-                (new Date(time).getMinutes() === 0
-                    ? `${new Date(time).getMinutes() + "0"}`
-                    : new Date(time).getMinutes())
+                new Date(time).getHours() + ":" + (new Date(time).getMinutes() === 0 ? `${new Date(time).getMinutes() + "0"}` : new Date(time).getMinutes())
             );
         },
         diffTime(duration) {
@@ -98,7 +94,6 @@ export default {
     }
 };
 </script>
-
 <style scoped lang="scss">
 .ticket {
     height: 168px;
