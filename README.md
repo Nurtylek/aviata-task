@@ -2,7 +2,7 @@
 
 1. Result can be found [on](https://aviata-test-31413.web.app/)
 2. Small _CI/CD_ based [on](https://docs.github.com/en/free-pro-team@latest/actions)
-3. CI to every pull request to master(main) branch (Tests, Linting and so no)
+3. CI to every pull request to master(main) branch (Tests, Linting and so no). So feel free to open pull request.
 4. CD on every push to master branch(automatic deployment)
 5. Added git hooks(pre commit and pre push)
 6. Task initially done by vue 2 and then upgraded to vue 3
