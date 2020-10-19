@@ -79,26 +79,28 @@
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   name: "TicketListItem",
-  data: () => ({
-    isOpen: false
-  }),
   props: {
     ticket: {
       type: Object,
       required: true
     }
   },
-  methods: {
-    airlineImg(code) {
-      return `https://aviata.kz/static/airline-logos/80x80/${code}.png`;
-    },
-    formatDate(time) {
+  setup() {
+    const isOpen = ref(false);
+
+    const formatDate = time => {
       const options = { year: "numeric", month: "long", day: "numeric" };
       return new Date(time).toLocaleDateString(navigator.language, options);
-    },
-    formatHours(time) {
+    };
+
+    const airlineImg = code => {
+      return `https://aviata.kz/static/airline-logos/80x80/${code}.png`;
+    };
+
+    const formatHours = time => {
       return (
         new Date(time).getHours() +
         ":" +
@@ -106,10 +108,19 @@ export default {
           ? `${new Date(time).getMinutes() + "0"}`
           : new Date(time).getMinutes())
       );
-    },
-    diffTime(duration) {
+    };
+
+    const diffTime = duration => {
       return `${Math.trunc(duration / 60)}ч ${duration % 60}м`;
-    }
+    };
+
+    return {
+      formatDate,
+      airlineImg,
+      formatHours,
+      diffTime,
+      isOpen
+    };
   }
 };
 </script>
