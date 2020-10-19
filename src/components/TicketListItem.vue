@@ -38,7 +38,7 @@
       </div>
       <div class="flex align-center space-between">
         <div class="ticket__condition">
-          <a class="ticket__condition--name" @click="isOpen = !isOpen"
+          <a class="ticket__condition--name" id="modalReference" @click="isOpen = !isOpen"
             >Детали перелета</a
           >
           <a class="ticket__condition--name">Условия тарифа</a>
