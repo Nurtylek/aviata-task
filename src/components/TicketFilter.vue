@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {ref, computed, onMounted} from 'vue';
+import { ref, computed, onMounted } from "vue";
 export default {
   name: "TicketFilter",
   props: {
@@ -42,33 +42,36 @@ export default {
       required: true
     }
   },
-    setup(props, context) {
-      const options = ref([]);
+  setup(props, context) {
+    const options = ref([]);
 
-      const isAllSelected = computed({
-          get: () => props.filterOptions ? options.value.length === props.filterOptions.length : false,
-          set: option => {
-              let selectedFilters = [];
-              if (option) {
-                  props.filterOptions.forEach(opt => {
-                      selectedFilters.push(opt.code);
-                  });
-              }
-              options.value = selectedFilters;
-          }
-      });
-
-      onMounted(() => {
-          isAllSelected.value = true;
-          context.emit("selected-filter", options.value)
-      })
-
-      //  expose to template
-      return {
-          isAllSelected,
-          options
+    const isAllSelected = computed({
+      get: () =>
+        props.filterOptions
+          ? options.value.length === props.filterOptions.length
+          : false,
+      set: option => {
+        let selectedFilters = [];
+        if (option) {
+          props.filterOptions.forEach(opt => {
+            selectedFilters.push(opt.code);
+          });
+        }
+        options.value = selectedFilters;
       }
-    }
+    });
+
+    onMounted(() => {
+      isAllSelected.value = true;
+      context.emit("selected-filter", options.value);
+    });
+
+    //  expose to template
+    return {
+      isAllSelected,
+      options
+    };
+  }
 };
 </script>
 
