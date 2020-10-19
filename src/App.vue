@@ -1,19 +1,19 @@
 <template>
-  <div class="container">
-    <app-the-toolbar></app-the-toolbar>
-    <main class="main">
-      <aside>
-        <app-filter-ticket
-          filter-title="Авиакомпании"
-          :filter-options="filterAirlines"
-          @selected-filter="setOptions($event)"
-        ></app-filter-ticket>
-      </aside>
-      <section>
-        <app-ticket-list :filtered-tickets="filteredTickets"></app-ticket-list>
-      </section>
-    </main>
-  </div>
+    <div class="container">
+        <app-the-toolbar></app-the-toolbar>
+        <main class="main">
+            <aside>
+                <app-filter-ticket
+                    filter-title="Авиакомпании"
+                    :filter-options="filterAirlinesOptions"
+                    @selected-filter="setFilterOptions($event)"
+                ></app-filter-ticket>
+            </aside>
+            <section v-if="filteredTickets">
+                <app-ticket-list :filtered-tickets="filteredTickets"></app-ticket-list>
+            </section>
+        </main>
+    </div>
 </template>
 
 <script>
@@ -24,39 +24,46 @@ import TicketList from "@/components/TicketList";
 import TheToolbar from "@/components/TheToolbar";
 import TicketFilter from "@/components/TicketFilter";
 
+import {ref, computed} from 'vue'
+
 export default {
-  name: "App",
-  components: {
-    appTicketList: TicketList,
-    appTheToolbar: TheToolbar,
-    appFilterTicket: TicketFilter
-  },
-  data: () => ({
-    tickets: TICKETS,
-    options: [],
-    filterAirlines: FILTERAIRLINES
-  }),
-  computed: {
-    filteredTickets() {
-      if (this.options.length === 0) {
-        return;
-      }
-      return this.tickets.filter(ticket => {
-        let temp = undefined;
+    name: "App",
+    components: {
+        appTicketList: TicketList,
+        appTheToolbar: TheToolbar,
+        appFilterTicket: TicketFilter
+    },
+    setup() {
+        const filterAirlinesOptions = FILTERAIRLINES;
 
-        ticket.flights.segments.forEach(segment => {
-          temp = this.options.includes(segment.airline);
-        });
+        const filterOptions = ref([]);
+        const setFilterOptions = (options) => {
+            filterOptions.value = options;
+        }
 
-        return temp;
-      });
+        const tickets = TICKETS;
+        const filteredTickets = computed({
+            get: () => {
+                return tickets.filter(ticket => {
+                    let filteredResult = undefined;
+
+                    ticket.flights.segments.forEach(segment => {
+                        filteredResult = filterOptions.value.includes(segment.airline);
+                    });
+
+                    return filteredResult;
+                });
+            }
+        })
+
+        return {
+            tickets,
+            filterOptions,
+            filterAirlinesOptions,
+            filteredTickets,
+            setFilterOptions
+        }
     }
-  },
-  methods: {
-    setOptions(options) {
-      this.options = options;
-    }
-  }
 };
 </script>
 
@@ -64,8 +71,8 @@ export default {
 @import "./assets/styles/common";
 
 .main {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
 }
 </style>

@@ -18,7 +18,12 @@ import TicketListItem from "./TicketListItem.vue";
 
 export default {
   name: "TicketList",
-  props: ["filteredTickets"],
+  props: {
+      filteredTickets: {
+          type: Array,
+          required: true
+      }
+  },
   components: {
     appTicketListItem: TicketListItem
   }
