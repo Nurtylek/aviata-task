@@ -1,10 +1,16 @@
 <template>
-  <app-ticket-list-item
-    :ticket="ticket"
-    v-for="ticket in filteredTickets"
-    :key="ticket.id"
-    class="marginBottom-12"
-  ></app-ticket-list-item>
+  <transition-group
+    name="tickets__list"
+    enter-active-class="fadeIn"
+    leave-active-class="fadeOut"
+  >
+    <div v-for="(ticket, index) in filteredTickets" :key="`ticket:${index}`">
+      <app-ticket-list-item
+        :ticket="ticket"
+        class="marginBottom-12"
+      ></app-ticket-list-item>
+    </div>
+  </transition-group>
 </template>
 
 <script>

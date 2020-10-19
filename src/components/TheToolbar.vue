@@ -2,7 +2,7 @@
   <header class="header space-between">
     <img
       class="header__img"
-      src="https://aviata.kz/static/images/logo.png"
+      src="https://kodobi.promo/media/uploads/2018/07/a32b4c9a62a6c0e0fba4f8abe56dfc09.png"
       alt="aviata logo"
     />
     <h1 class="header__title">Поиск и бронирование авиaбилетов</h1>
@@ -30,6 +30,12 @@ export default {
 
   &__img {
     object-fit: cover;
+    cursor: pointer;
+    width: 290px;
+
+    &:hover {
+      animation: color 10s infinite;
+    }
   }
 
   &__title {
