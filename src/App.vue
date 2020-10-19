@@ -9,8 +9,11 @@
                     @selected-filter="setFilterOptions($event)"
                 ></app-filter-ticket>
             </aside>
-            <section v-if="filteredTickets">
-                <app-ticket-list :filtered-tickets="filteredTickets"></app-ticket-list>
+            <section>
+                <template  v-if="filteredTickets.length > 0">
+                    <app-ticket-list :filtered-tickets="filteredTickets"></app-ticket-list>
+                </template>
+                <template v-if="filteredTickets.length === 0"><div class="text-center"><strong class="main__not-found">Нет Результатов</strong></div></template>
             </section>
         </main>
     </div>
@@ -74,5 +77,9 @@ export default {
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: 20px;
+}
+
+.main__not-found {
+    font-size: 24px;
 }
 </style>

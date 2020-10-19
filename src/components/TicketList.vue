@@ -4,10 +4,13 @@
     enter-active-class="fadeIn"
     leave-active-class="fadeOut"
   >
-    <div v-for="(ticket, index) in filteredTickets" :key="`ticket:${index}`">
+    <div
+        v-for="(ticket, index) in filteredTickets"
+        :key="`ticket:${index}`"
+        class="marginBottom-12"
+    >
       <app-ticket-list-item
         :ticket="ticket"
-        class="marginBottom-12"
       ></app-ticket-list-item>
     </div>
   </transition-group>
