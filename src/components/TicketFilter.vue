@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {ref, computed, onMounted} from 'vue';
 export default {
   name: "TicketFilter",
   props: {
@@ -41,32 +42,33 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    options: []
-  }),
-  computed: {
-    isAllSelected: {
-      get() {
-        return this.filterOptions
-          ? this.options.length === this.filterOptions.length
-          : false;
-      },
-      set(option) {
-        let selectedFilters = [];
-        if (option) {
-          this.filterOptions.forEach(opt => {
-            selectedFilters.push(opt.code);
-          });
-        }
+    setup(props, context) {
+      const options = ref([]);
 
-        this.options = selectedFilters;
+      const isAllSelected = computed({
+          get: () => props.filterOptions ? options.value.length === props.filterOptions.length : false,
+          set: option => {
+              let selectedFilters = [];
+              if (option) {
+                  props.filterOptions.forEach(opt => {
+                      selectedFilters.push(opt.code);
+                  });
+              }
+              options.value = selectedFilters;
+          }
+      });
+
+      onMounted(() => {
+          isAllSelected.value = true;
+          context.emit("selected-filter", options.value)
+      })
+
+      //  expose to template
+      return {
+          isAllSelected,
+          options
       }
     }
-  },
-  created() {
-    this.isAllSelected = true;
-    this.$emit("selected-filter", this.options);
-  }
 };
 </script>
 
