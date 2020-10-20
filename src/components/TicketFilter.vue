@@ -6,7 +6,7 @@
         type="checkbox"
         id="all"
         v-model="isAllSelected"
-        @change="$emit('selected-filter', options)"
+        @change="setOptions(options)"
       />
       <span class="filter__option--title">Все</span>
     </label>
@@ -15,7 +15,7 @@
       :key="filterOption.code"
       :for="filterOption.code"
       v-for="filterOption in filterOptions"
-      @change="$emit('selected-filter', options)"
+      @change="setOptions(options)"
     >
       <input
         type="checkbox"
@@ -32,6 +32,7 @@
 import { ref, computed, onMounted } from "vue";
 export default {
   name: "TicketFilter",
+  emits: ["selected-filter"],
   props: {
     filterTitle: {
       type: String,
@@ -61,6 +62,11 @@ export default {
       }
     });
 
+    const setOptions = (options) => {
+      options.value = options;
+      context.emit("selected-filter", options.value);
+    }
+
     onMounted(() => {
       isAllSelected.value = true;
       context.emit("selected-filter", options.value);
@@ -69,7 +75,8 @@ export default {
     //  expose to template
     return {
       isAllSelected,
-      options
+      options,
+      setOptions
     };
   }
 };
